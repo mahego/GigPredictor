@@ -1,0 +1,119 @@
+{
+  "artist": {
+    "primary": "Viejones",
+    "secondary": "DLS"
+  },
+  "analysis_area": {
+    "center": {
+      "lat": 19.9294,
+      "lng": -96.8514
+    },
+    "radius_km": 18,
+    "date_window": {
+      "start": "2026-05-23",
+      "end": "2026-05-24"
+    }
+  },
+  "genre": "regional",
+  "local_heat_index": 100,
+  "competition_factor": 8,
+  "viability_score": 89,
+  "nivel_viabilidad": "Alto",
+  "aforo_estimado": {
+    "min": 1121,
+    "max": 1360,
+    "currency": "MXN",
+    "estimated_break_even_revenue": 350000
+  },
+  "puntos_calientes": [
+    {
+      "name": "Misantla Centro",
+      "lat": 19.9294,
+      "lng": -96.8514,
+      "distance_km": 0,
+      "score": 168.77,
+      "signal_breakdown": {
+        "youtube_views": 24500,
+        "lastfm_listeners": 3900,
+        "social_mentions": 1320
+      },
+      "recommended_channels": [
+        "Meta Ads",
+        "Perifoneo local",
+        "Carteles en mercado"
+      ]
+    },
+    {
+      "name": "Francisco I. Madero",
+      "lat": 19.9218,
+      "lng": -96.8698,
+      "distance_km": 2.1,
+      "score": 121.17,
+      "signal_breakdown": {
+        "youtube_views": 19100,
+        "lastfm_listeners": 3100,
+        "social_mentions": 1080
+      },
+      "recommended_channels": [
+        "Volanteo",
+        "WhatsApp vecinal",
+        "Spots en radio"
+      ]
+    },
+    {
+      "name": "La Constancia",
+      "lat": 19.9533,
+      "lng": -96.8372,
+      "distance_km": 3.04,
+      "score": 91.96,
+      "signal_breakdown": {
+        "youtube_views": 16200,
+        "lastfm_listeners": 2400,
+        "social_mentions": 870
+      },
+      "recommended_channels": [
+        "Anuncios geolocalizados",
+        "Radio regional",
+        "Posters"
+      ]
+    },
+    {
+      "name": "Libertad",
+      "lat": 19.9064,
+      "lng": -96.8427,
+      "distance_km": 2.71,
+      "score": 85.41,
+      "signal_breakdown": {
+        "youtube_views": 14700,
+        "lastfm_listeners": 2200,
+        "social_mentions": 790
+      },
+      "recommended_channels": [
+        "TikTok local",
+        "Banners en ruta",
+        "Promotores de calle"
+      ]
+    }
+  ],
+  "competing_events": [
+    {
+      "name": "Festival Norteño Misantla 2026",
+      "genre": "regional",
+      "date": "2026-05-23",
+      "lat": 19.931,
+      "lng": -96.847,
+      "expectedAttendance": 1100,
+      "source": "Ticketmaster (simulado)",
+      "distance_km": 0.49,
+      "pressure": 8
+    }
+  ],
+  "recommendation": {
+    "message": "Demanda orgánica suficiente para activar campaña táctica en radio local y performance digital.",
+    "ideal_channels": [
+      "Meta Ads",
+      "Perifoneo local",
+      "Carteles en mercado"
+    ]
+  }
+}

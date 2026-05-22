@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GigPredictor Preview</title>
+    <style>
+      body {
+        margin: 0;
+        background: #020617;
+        color: #e2e8f0;
+        font-family: Inter, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1200px;
+        margin: 32px auto;
+        padding: 24px;
+      }
+      .card {
+        background: linear-gradient(135deg, #0f172a, #111827);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+      }
+      .header, .stats, .content { display: grid; gap: 16px; }
+      .header { grid-template-columns: 1fr auto; align-items: center; }
+      .subtitle, .eyebrow, .muted { color: #94a3b8; margin: 0; }
+      h1, h2, p { margin: 0; }
+      .pill { padding: 10px 18px; border-radius: 999px; font-weight: 700; background: rgba(22,163,74,.2); color: #86efac; }
+      .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 20px 0; }
+      .stats article, .list { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(148,163,184,.15); border-radius: 18px; padding: 16px; }
+      .stats strong { display: block; margin-top: 8px; font-size: 1.45rem; }
+      .content { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); }
+      .map {
+        position: relative;
+        min-height: 430px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(148,163,184,.12);
+        background:
+          linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px),
+          radial-gradient(circle at 50% 50%, rgba(20,184,166,.18), transparent 30%),
+          linear-gradient(180deg, #082f49, #0f172a);
+        background-size: 48px 48px, 48px 48px, auto, auto;
+      }
+      .radius {
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        border: 3px solid rgba(45, 212, 191, 0.85);
+        background: rgba(20, 184, 166, 0.15);
+        left: calc(50% - 160px);
+        top: calc(50% - 160px);
+      }
+      .center {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #2dd4bf;
+        left: calc(50% - 8px);
+        top: calc(50% - 8px);
+        box-shadow: 0 0 0 8px rgba(45, 212, 191, 0.16);
+      }
+      .point {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        display: grid;
+        place-items: center;
+      }
+      .point-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #f97316;
+        box-shadow: 0 0 0 10px rgba(249, 115, 22, 0.16);
+      }
+      .point-label {
+        margin-top: 10px;
+        padding: 6px 10px;
+        font-size: 12px;
+        border-radius: 999px;
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(148,163,184,.18);
+        white-space: nowrap;
+      }
+      .list ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
+      .list li { background: rgba(30,41,59,.7); border-radius: 14px; padding: 12px; }
+      .row { display:flex; justify-content:space-between; gap: 10px; margin-bottom: 6px; }
+      @media (max-width: 900px) {
+        .header, .stats, .content { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="card">
+        <div class="header">
+          <div>
+            <p class="eyebrow">GigPredictor · Vista previa</p>
+            <h1 id="artist-primary"></h1>
+            <p class="subtitle" id="artist-secondary"></p>
+          </div>
+          <div class="pill" id="viability-level"></div>
+        </div>
+        <div class="stats">
+          <article><span class="muted">Índice de calor</span><strong id="heat"></strong></article>
+          <article><span class="muted">Competencia</span><strong id="competition"></strong></article>
+          <article><span class="muted">Aforo estimado</span><strong id="capacity"></strong></article>
+        </div>
+        <div class="content">
+          <div class="map" id="map">
+            <div class="radius"></div>
+            <div class="center"></div>
+          </div>
+          <aside class="list">
+            <h2>Puntos calientes</h2>
+            <ul id="hotspots"></ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <script>
+      const SCALE = 650;
+      const map = document.getElementById('map');
+      const hotspots = document.getElementById('hotspots');
+
+      function render(data) {
+        const center = data.analysis_area.center;
+        document.getElementById('artist-primary').textContent = data.artist.primary;
+        document.getElementById('artist-secondary').textContent = data.artist.secondary;
+        document.getElementById('viability-level').textContent = data.nivel_viabilidad;
+        document.getElementById('heat').textContent = data.local_heat_index;
+        document.getElementById('competition').textContent = data.competition_factor;
+        document.getElementById('capacity').textContent = `${data.aforo_estimado.min} - ${data.aforo_estimado.max}`;
+
+        data.puntos_calientes.forEach((point) => {
+          const x = 50 + (point.lng - center.lng) * SCALE;
+          const y = 50 - (point.lat - center.lat) * SCALE;
+          const marker = document.createElement('div');
+          marker.className = 'point';
+          marker.style.left = `${x}%`;
+          marker.style.top = `${y}%`;
+          marker.innerHTML = `<div class="point-dot"></div><div class="point-label">${point.name}</div>`;
+          map.appendChild(marker);
+
+          const li = document.createElement('li');
+          li.innerHTML = `<div class="row"><strong>${point.name}</strong><span class="muted">Score ${point.score}</span></div><small class="muted">${point.recommended_channels.join(' · ')}</small>`;
+          hotspots.appendChild(li);
+        });
+      }
+
+      fetch('../../samples/viability-response.json')
+        .then((response) => response.json())
+        .then(render)
+        .catch((error) => {
+          document.body.insertAdjacentHTML('beforeend', `<pre class="muted">No se pudo cargar el JSON de muestra: ${error.message}</pre>`);
+        });
+    </script>
+  </body>
+</html>

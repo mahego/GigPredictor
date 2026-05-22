@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gigpredictor.local/schemas/viability-request.schema.json",
+  "title": "GigPredictorViabilityRequest",
+  "type": "object",
+  "required": ["artist_name", "artist_subtitle", "genre", "lat", "lng", "radius", "cost_contratacion", "date_window"],
+  "properties": {
+    "artist_name": { "type": "string", "examples": ["Viejones"] },
+    "artist_subtitle": { "type": "string", "examples": ["DLS"] },
+    "genre": { "type": "string", "examples": ["regional"] },
+    "lat": { "type": "number" },
+    "lng": { "type": "number" },
+    "radius": { "type": "number", "minimum": 1 },
+    "cost_contratacion": { "type": "number", "minimum": 0 },
+    "date_window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

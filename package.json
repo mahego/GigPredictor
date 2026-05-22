@@ -1,0 +1,28 @@
+{
+  "name": "gigpredictor",
+  "version": "1.0.0",
+  "description": "GigPredictor technical architecture, backend viability engine and Angular map component.",
+  "main": "backend/src/index.js",
+  "scripts": {
+    "start": "node backend/src/index.js",
+    "test": "node --test backend/test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahego/GigPredictor.git"
+  },
+  "keywords": [
+    "business-intelligence",
+    "concerts",
+    "angular",
+    "google-cloud",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mahego/GigPredictor/issues"
+  },
+  "homepage": "https://github.com/mahego/GigPredictor#readme"
+}

@@ -1,0 +1,154 @@
+:host {
+  display: block;
+  font-family: Inter, Arial, sans-serif;
+  color: #e2e8f0;
+}
+
+.map-shell {
+  background: linear-gradient(135deg, #0f172a, #111827);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+}
+
+.analysis-header,
+.map-card,
+.stats-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.analysis-header {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.eyebrow,
+.subtitle,
+.stats-grid span,
+.hotspot-list small,
+.fallback-message span {
+  color: #94a3b8;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 1.05rem;
+}
+
+.viability-pill {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.viability-pill[data-level='Alto'] {
+  background: rgba(22, 163, 74, 0.2);
+  color: #86efac;
+}
+
+.viability-pill[data-level='Medio'] {
+  background: rgba(234, 179, 8, 0.2);
+  color: #fde68a;
+}
+
+.viability-pill[data-level='Bajo'] {
+  background: rgba(220, 38, 38, 0.2);
+  color: #fca5a5;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 20px 0;
+}
+
+.stats-grid article,
+.hotspot-list {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.stats-grid strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.4rem;
+  color: #f8fafc;
+}
+
+.map-card {
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  align-items: start;
+}
+
+.map-canvas {
+  min-height: 420px;
+  border-radius: 20px;
+  background: radial-gradient(circle at top, rgba(20, 184, 166, 0.12), transparent 40%),
+    linear-gradient(180deg, #082f49, #0f172a);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.map-canvas--fallback::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.fallback-message {
+  position: absolute;
+  inset: auto 20px 20px 20px;
+  background: rgba(15, 23, 42, 0.86);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: grid;
+  gap: 6px;
+}
+
+.hotspot-list ul {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.hotspot-list li {
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.hotspot-list li > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 900px) {
+  .stats-grid,
+  .map-card,
+  .analysis-header {
+    grid-template-columns: 1fr;
+  }
+}
