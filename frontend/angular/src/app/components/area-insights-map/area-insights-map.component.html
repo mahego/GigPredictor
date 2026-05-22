@@ -1,0 +1,16 @@
+<div class="map-card">
+  <div #mapContainer class="map-canvas" [class.map-canvas--fallback]="usingFallback">
+    <ng-container *ngIf="usingFallback">
+      <div class="radius"></div>
+      <div class="center-dot"></div>
+      <div *ngFor="let hotspot of hotspots" class="fallback-point" [ngStyle]="getMarkerStyle(hotspot)">
+        <span class="fallback-point__dot"></span>
+        <span class="fallback-point__label">{{ hotspot.name }}</span>
+      </div>
+      <div class="fallback-message">
+        <strong>Modo preview sin API key</strong>
+        <span>{{ hotspots.length ? 'Ubicaciones y radio simulados para demo interna.' : emptyState }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>

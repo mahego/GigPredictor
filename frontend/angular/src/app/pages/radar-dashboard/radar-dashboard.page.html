@@ -1,0 +1,89 @@
+<section class="page-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Radar Local · Últimos {{ radar.area.lookback_days }} días</p>
+      <h1>Top de la zona en Misantla / Francisco I. Madero</h1>
+      <p class="subtitle">
+        Cruce simulado de YouTube, Last.fm y social listening para el radio de {{ radar.area.radius_km }} km.
+      </p>
+    </div>
+    <div class="summary-card">
+      <span>Género dominante</span>
+      <strong>{{ radar.summary.dominant_genre }}</strong>
+      <small>{{ radar.summary.dominant_genre_percentage }}% del consumo local</small>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <app-area-insights-map
+      [center]="radar.area.center"
+      [radiusKm]="radar.area.radius_km"
+      [hotspots]="radar.area.active_zones"
+      [mapApiKey]="mapApiKey"
+    />
+
+    <aside class="panel stack">
+      <article class="genre-card">
+        <div class="genre-card__chart" [style.background]="genreChartStyle"></div>
+        <div class="genre-card__legend">
+          <div *ngFor="let genre of radar.genre_distribution; let i = index" class="legend-row">
+            <span class="legend-chip" [ngStyle]="{ background: getColor(i) }"></span>
+            <span>{{ genre.genre }}</span>
+            <strong>{{ genre.percentage }}%</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel-section">
+        <h2>Tendencias Top 10</h2>
+        <ul class="trend-list">
+          <li *ngFor="let trend of radar.trends">
+            <div>
+              <strong>#{{ radar.trends.indexOf(trend) + 1 }} · {{ trend.title }}</strong>
+              <small>{{ trend.label }} · {{ trend.genre }}</small>
+            </div>
+            <span class="trend-pill">{{ trend.trend }}</span>
+          </li>
+        </ul>
+      </article>
+    </aside>
+  </div>
+
+  <div class="bottom-grid">
+    <article class="panel panel-section">
+      <h2>Artistas líderes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Artista</th>
+            <th>Género</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let artist of radar.top_artists">
+            <td>
+              <strong>{{ artist.artist.primary }}</strong>
+              <small *ngIf="artist.artist.secondary">{{ artist.artist.secondary }}</small>
+            </td>
+            <td>{{ artist.genre }}</td>
+            <td>{{ artist.score }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="panel panel-section">
+      <h2>Zonas calientes</h2>
+      <ul class="zone-list">
+        <li *ngFor="let zone of radar.area.active_zones">
+          <div>
+            <strong>{{ zone.name }}</strong>
+            <small>{{ zone.distance_km }} km · demanda {{ zone.demand_weight }}</small>
+          </div>
+          <span>{{ getChannelSummary(zone.recommended_channels) }}</span>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>

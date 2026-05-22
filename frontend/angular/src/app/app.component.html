@@ -1,0 +1,24 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <p>GigPredictor OS</p>
+      <strong>Dashboard promotor</strong>
+    </div>
+
+    <nav>
+      <a *ngFor="let section of sections" [routerLink]="section.route" routerLinkActive="active">
+        <strong>{{ section.label }}</strong>
+        <span>{{ section.description }}</span>
+      </a>
+    </nav>
+
+    <footer>
+      <span>Zona base</span>
+      <strong>Misantla / Francisco I. Madero, Veracruz</strong>
+    </footer>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
