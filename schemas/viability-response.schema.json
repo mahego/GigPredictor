@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gigpredictor.local/schemas/viability-response.schema.json",
+  "title": "GigPredictorViabilityResponse",
+  "type": "object",
+  "required": ["artist", "analysis_area", "local_heat_index", "competition_factor", "nivel_viabilidad", "aforo_estimado", "puntos_calientes"],
+  "properties": {
+    "artist": {
+      "type": "object",
+      "required": ["primary", "secondary"],
+      "properties": {
+        "primary": { "type": "string" },
+        "secondary": { "type": "string" }
+      }
+    },
+    "analysis_area": {
+      "type": "object",
+      "required": ["center", "radius_km", "date_window"],
+      "properties": {
+        "center": {
+          "type": "object",
+          "required": ["lat", "lng"],
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "radius_km": { "type": "number" },
+        "date_window": {
+          "type": "object",
+          "required": ["start", "end"],
+          "properties": {
+            "start": { "type": "string", "format": "date" },
+            "end": { "type": "string", "format": "date" }
+          }
+        }
+      }
+    },
+    "local_heat_index": { "type": "number" },
+    "competition_factor": { "type": "number" },
+    "viability_score": { "type": "number" },
+    "nivel_viabilidad": { "type": "string", "enum": ["Alto", "Medio", "Bajo"] },
+    "aforo_estimado": {
+      "type": "object",
+      "required": ["min", "max", "currency", "estimated_break_even_revenue"],
+      "properties": {
+        "min": { "type": "integer" },
+        "max": { "type": "integer" },
+        "currency": { "type": "string" },
+        "estimated_break_even_revenue": { "type": "number" }
+      }
+    },
+    "puntos_calientes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "lat", "lng", "score", "recommended_channels"],
+        "properties": {
+          "name": { "type": "string" },
+          "lat": { "type": "number" },
+          "lng": { "type": "number" },
+          "score": { "type": "number" },
+          "recommended_channels": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<section class="map-shell">
+  <header class="analysis-header">
+    <div>
+      <p class="eyebrow">GigPredictor · Regional Veracruz</p>
+      <h1>{{ analysis.artist.primary }}</h1>
+      <p class="subtitle">{{ analysis.artist.secondary }}</p>
+    </div>
+    <div class="viability-pill" [attr.data-level]="analysis.nivel_viabilidad">
+      {{ analysis.nivel_viabilidad }}
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <article>
+      <span>Índice de calor</span>
+      <strong>{{ analysis.local_heat_index }}</strong>
+    </article>
+    <article>
+      <span>Competencia</span>
+      <strong>{{ analysis.competition_factor }}</strong>
+    </article>
+    <article>
+      <span>Aforo estimado</span>
+      <strong>{{ analysis.aforo_estimado.min }} - {{ analysis.aforo_estimado.max }}</strong>
+    </article>
+  </div>
+
+  <div class="map-card">
+    <div #mapContainer class="map-canvas" [class.map-canvas--fallback]="usingFallback">
+      <div *ngIf="usingFallback" class="fallback-message">
+        <strong>Modo preview sin API key</strong>
+        <span>Se muestran zonas calientes y radio sugerido como referencia visual.</span>
+      </div>
+    </div>
+
+    <aside class="hotspot-list">
+      <h2>Puntos calientes</h2>
+      <ul>
+        <li *ngFor="let hotspot of analysis.puntos_calientes">
+          <div>
+            <strong>{{ hotspot.name }}</strong>
+            <span>Score {{ hotspot.score }}</span>
+          </div>
+          <small>{{ hotspot.recommended_channels.join(' · ') }}</small>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>

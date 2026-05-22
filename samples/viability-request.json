@@ -1,0 +1,13 @@
+{
+  "artist_name": "Viejones",
+  "artist_subtitle": "DLS",
+  "genre": "regional",
+  "lat": 19.9294,
+  "lng": -96.8514,
+  "radius": 18,
+  "cost_contratacion": 350000,
+  "date_window": {
+    "start": "2026-05-23",
+    "end": "2026-05-24"
+  }
+}
