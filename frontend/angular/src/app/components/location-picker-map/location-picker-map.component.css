@@ -1,0 +1,292 @@
+:host {
+  display: block;
+}
+
+.picker-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Barra de búsqueda ── */
+.search-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.8);
+  color: #f8fafc;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #38bdf8;
+}
+
+.search-input::placeholder {
+  color: #64748b;
+}
+
+.search-input:disabled {
+  opacity: 0.5;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #0ea5e9;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  white-space: nowrap;
+}
+
+.search-btn:hover:not(:disabled) {
+  background: #38bdf8;
+}
+
+.search-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.search-error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #f87171;
+}
+
+/* ── Canvas del mapa ── */
+.picker-canvas {
+  position: relative;
+  height: 380px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  overflow: hidden;
+  background: linear-gradient(180deg, #082f49, #020617);
+}
+
+.picker-canvas--fallback {
+  background:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, #0c1a2e, #020617);
+  background-size: 40px 40px, 40px 40px, auto;
+  user-select: none;
+}
+
+.fallback-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.fallback-hint--picked {
+  color: #22d3ee;
+  border-color: rgba(34, 211, 238, 0.4);
+}
+
+/* Marcador en fallback */
+.fallback-marker {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.fallback-marker__dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22d3ee;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
+}
+
+.fallback-marker__ring {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 211, 238, 0.6);
+  background: rgba(34, 211, 238, 0.08);
+  transform: translate(-50%, -50%);
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* ── Controles ── */
+.picker-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 16px;
+}
+
+.coord-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+}
+
+.coord-pin {
+  font-size: 1rem;
+}
+
+.coord-text {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.coord-address {
+  color: #94a3b8;
+}
+
+.coord-hint {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+/* ── Slider de radio ── */
+.radius-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  row-gap: 6px;
+  column-gap: 8px;
+}
+
+.radius-control span:first-child {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  grid-column: 1;
+}
+
+.radius-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #22d3ee;
+  text-align: right;
+  grid-column: 2;
+}
+
+.radius-slider {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #0ea5e9;
+  cursor: pointer;
+  height: 4px;
+}
+
+.radius-ticks {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #475569;
+}
+
+/* ── Filtro por género ── */
+.genre-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.genre-filter__label {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.genre-filter__hint {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.genre-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.genre-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.genre-chip:hover {
+  border-color: #0ea5e9;
+  color: #e2e8f0;
+}
+
+.genre-chip--active {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Botón confirmar ── */
+.confirm-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  letter-spacing: 0.02em;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.confirm-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}

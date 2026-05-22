@@ -1,3 +1,4 @@
+require('dotenv').config();
 const http = require('node:http');
 const {
   defaultAnalysisRequest,
@@ -72,6 +73,13 @@ function createServer() {
       return;
     }
 
+    if (request.method === 'GET' && request.url === '/api/config') {
+      sendJson(response, 200, {
+        mapsApiKey: process.env.GOOGLE_MAPS_API_KEY ?? ''
+      });
+      return;
+    }
+
     if (request.method === 'POST' && request.url === '/api/viability') {
       try {
         const payload = buildRequestPayload(await collectJsonBody(request));
@@ -88,7 +96,7 @@ function createServer() {
     if (request.method === 'POST' && request.url === '/api/radar') {
       try {
         const payload = buildRadarRequest(await collectJsonBody(request));
-        sendJson(response, 200, getRadarInsights(payload));
+        sendJson(response, 200, await getRadarInsights(payload));
       } catch (error) {
         sendJson(response, 400, {
           error: 'Invalid JSON payload',
@@ -101,7 +109,7 @@ function createServer() {
     if (request.method === 'POST' && request.url === '/api/recommend-booking') {
       try {
         const payload = buildBookingRequest(await collectJsonBody(request));
-        sendJson(response, 200, recommendBooking(payload));
+        sendJson(response, 200, await recommendBooking(payload));
       } catch (error) {
         sendJson(response, 400, {
           error: 'Invalid JSON payload',

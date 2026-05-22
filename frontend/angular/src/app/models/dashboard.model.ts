@@ -15,6 +15,7 @@ export interface RadarRequest {
   lat: number;
   lng: number;
   radius: number;
+  genres?: string[];
 }
 
 export interface RadarZone extends MapHotspot {

@@ -1,0 +1,93 @@
+<div class="picker-shell">
+
+  <!-- Barra de búsqueda -->
+  <div class="search-bar">
+    <input
+      #searchInput
+      type="text"
+      class="search-input"
+      [placeholder]="hasAutocomplete ? 'Escribe ciudad, colonia, municipio…' : 'Buscar ciudad, municipio, colonia…'"
+      (keydown.enter)="searchPlace()"
+      [disabled]="searching"
+    />
+    <button *ngIf="!hasAutocomplete" class="search-btn" (click)="searchPlace()" [disabled]="searching">
+      {{ searching ? '…' : 'Buscar' }}
+    </button>
+  </div>
+  <p *ngIf="searchError" class="search-error">{{ searchError }}</p>
+
+  <!-- Mapa -->
+  <div
+    #mapContainer
+    class="picker-canvas"
+    [class.picker-canvas--fallback]="usingFallback"
+    (click)="onFallbackClick($event)"
+    [style.cursor]="usingFallback ? 'crosshair' : 'default'"
+  >
+    <ng-container *ngIf="usingFallback">
+      <div class="fallback-hint" [class.fallback-hint--picked]="pickedCenter">
+        {{ pickedCenter ? 'Punto seleccionado · ajusta el radio abajo' : 'Haz clic para seleccionar el centro del radar' }}
+      </div>
+      <div class="fallback-marker" [ngStyle]="getFallbackMarkerStyle()">
+        <span class="fallback-marker__dot"></span>
+        <span class="fallback-marker__ring"></span>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Controles inferiores -->
+  <div class="picker-controls">
+    <div class="coord-row" *ngIf="pickedCenter">
+      <span class="coord-pin">📍</span>
+      <span class="coord-text">
+        {{ pickedCenter.lat | number:'1.4-4' }}, {{ pickedCenter.lng | number:'1.4-4' }}
+        <span *ngIf="address" class="coord-address"> · {{ address }}</span>
+      </span>
+    </div>
+    <div class="coord-row" *ngIf="!pickedCenter">
+      <span class="coord-hint">Selecciona un punto en el mapa o usa el buscador</span>
+    </div>
+
+    <label class="radius-control">
+      <span>Radio de búsqueda</span>
+      <span class="radius-value">{{ radius }} km</span>
+      <input
+        type="range"
+        class="radius-slider"
+        min="5"
+        max="100"
+        step="5"
+        [(ngModel)]="radius"
+        (input)="onRadiusChange()"
+      />
+      <div class="radius-ticks">
+        <span>5 km</span>
+        <span>50 km</span>
+        <span>100 km</span>
+      </div>
+    </label>
+
+    <!-- Filtro por género -->
+    <div class="genre-filter">
+      <span class="genre-filter__label">Géneros <span class="genre-filter__hint">(opcional)</span></span>
+      <div class="genre-chips">
+        <button
+          *ngFor="let genre of availableGenres"
+          class="genre-chip"
+          [class.genre-chip--active]="isGenreSelected(genre)"
+          (click)="toggleGenre(genre)"
+          type="button"
+        >{{ genre }}</button>
+      </div>
+    </div>
+
+    <button
+      class="confirm-btn"
+      [disabled]="!pickedCenter"
+      (click)="confirm()"
+    >
+      Analizar zona
+    </button>
+  </div>
+
+</div>

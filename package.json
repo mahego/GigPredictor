@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/mahego/GigPredictor/issues"
   },
-  "homepage": "https://github.com/mahego/GigPredictor#readme"
+  "homepage": "https://github.com/mahego/GigPredictor#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
 }

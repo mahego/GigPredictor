@@ -1,16 +1,43 @@
-<section class="page-shell">
+<!-- ── Picker de zona ── -->
+<section *ngIf="showPicker" class="picker-page">
+  <header class="picker-header">
+    <h1>Radar Local</h1>
+    <p class="subtitle">Selecciona el punto central y el radio para analizar la demanda musical de la zona.</p>
+  </header>
+  <app-location-picker-map
+    [mapApiKey]="mapApiKey"
+    [initialRadius]="18"
+    (locationConfirmed)="onLocationConfirmed($event)"
+  />
+</section>
+
+<!-- ── Cargando ── -->
+<div *ngIf="loading && !showPicker" class="state-placeholder">
+  <span class="spinner"></span>
+  Analizando zona · {{ pickedAddress }}…
+</div>
+
+<!-- ── Error ── -->
+<div *ngIf="error && !showPicker" class="state-error">
+  {{ error }}
+  <button class="change-zone-link" (click)="changeZone()">Intentar con otra zona</button>
+</div>
+
+<!-- ── Resultados ── -->
+<section *ngIf="radar && !loading && !showPicker" class="page-shell">
   <header class="page-header">
     <div>
       <p class="eyebrow">Radar Local · Últimos {{ radar.area.lookback_days }} días</p>
-      <h1>Top de la zona en Misantla / Francisco I. Madero</h1>
+      <h1>Radar · {{ pickedAddress || 'Zona seleccionada' }}</h1>
       <p class="subtitle">
-        Cruce simulado de YouTube, Last.fm y social listening para el radio de {{ radar.area.radius_km }} km.
+        YouTube, Last.fm y Spotify · radio de {{ radar.area.radius_km }} km.
       </p>
     </div>
     <div class="summary-card">
       <span>Género dominante</span>
       <strong>{{ radar.summary.dominant_genre }}</strong>
       <small>{{ radar.summary.dominant_genre_percentage }}% del consumo local</small>
+      <button class="change-zone-btn" (click)="changeZone()">Cambiar zona</button>
     </div>
   </header>
 

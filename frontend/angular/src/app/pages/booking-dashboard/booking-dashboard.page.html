@@ -1,16 +1,46 @@
-<section class="page-shell">
+<!-- ── Picker de zona ── -->
+<section *ngIf="showPicker" class="picker-page">
+  <header class="picker-header">
+    <h1>Booking ROI</h1>
+    <p class="subtitle">Selecciona la zona para la que quieres calcular el mejor artista a contratar.</p>
+  </header>
+  <app-location-picker-map
+    [mapApiKey]="mapApiKey"
+    [initialRadius]="18"
+    (locationConfirmed)="onLocationConfirmed($event)"
+  />
+</section>
+
+<!-- ── Cargando ── -->
+<div *ngIf="loading && !showPicker" class="state-placeholder">
+  <span class="spinner"></span>
+  Calculando recomendaciones · {{ pickedAddress }}…
+</div>
+
+<!-- ── Error ── -->
+<div *ngIf="error && !showPicker" class="state-error">
+  {{ error }}
+  <button class="change-zone-link" (click)="changeZone()">Intentar con otra zona</button>
+</div>
+
+<section *ngIf="!showPicker && !loading" class="page-shell">
   <header class="page-header">
     <div>
       <p class="eyebrow">Motor de Recomendación de Booking</p>
-      <h1>Calculadora ROI para fechas 23 y 24 de mayo de 2026</h1>
+      <h1>Booking ROI · {{ pickedAddress }}</h1>
       <p class="subtitle">
         Cruza presupuesto, popularidad y demanda real del Radar Local para recomendar a quién contratar.
       </p>
     </div>
-    <div class="snapshot-card">
-      <span>Radar activo</span>
-      <strong>{{ booking.radar_snapshot.dominant_genre }}</strong>
-      <small>{{ booking.radar_snapshot.dominant_genre_percentage }}% de demanda local</small>
+    <div class="summary-card">
+      <ng-container *ngIf="booking as b">
+        <span>Radar activo</span>
+        <strong>{{ b.radar_snapshot.dominant_genre }}</strong>
+        <small>{{ b.radar_snapshot.dominant_genre_percentage }}% de demanda local</small>
+      </ng-container>
+      <span *ngIf="!booking">Zona seleccionada</span>
+      <strong *ngIf="!booking">{{ pickedAddress }}</strong>
+      <button class="change-zone-btn" (click)="changeZone()">Cambiar zona</button>
     </div>
   </header>
 
@@ -28,13 +58,14 @@
         </label>
         <label class="full-width">
           <span>Fechas</span>
-          <input type="text" [(ngModel)]="criteria.dates" name="dates" placeholder="2026-05-23,2026-05-24" />
+          <input type="text" [(ngModel)]="criteria.dates" name="dates" placeholder="YYYY-MM-DD,YYYY-MM-DD" />
         </label>
-        <button type="submit">Calcular Top 5</button>
+        <button type="submit" [disabled]="loading">{{ loading ? 'Calculando…' : 'Calcular Top 5' }}</button>
       </form>
+      <div *ngIf="error" class="state-error">{{ error }}</div>
     </article>
 
-    <article class="panel map-panel">
+    <article class="panel map-panel" *ngIf="booking as b">
       <div class="map-panel__header">
         <div>
           <h2>{{ selectedArtist?.artist?.primary || 'Selecciona un artista' }}</h2>
@@ -44,8 +75,8 @@
       </div>
 
       <app-area-insights-map
-        [center]="booking.area.center"
-        [radiusKm]="booking.area.radius_km"
+        [center]="b.area.center"
+        [radiusKm]="b.area.radius_km"
         [hotspots]="selectedArtist?.hotspot_focus || []"
         [mapApiKey]="mapApiKey"
         emptyState="Elige un artista para mostrar sus puntos calientes"
@@ -55,9 +86,14 @@
         <li *ngFor="let reason of selectedArtist.reasons">{{ reason }}</li>
       </ul>
     </article>
+
+    <div *ngIf="!booking && !loading" class="state-placeholder map-panel panel">
+      Completa el formulario y presiona "Calcular Top 5" para ver resultados.
+    </div>
+    <div *ngIf="loading" class="state-placeholder map-panel panel">Calculando recomendaciones…</div>
   </div>
 
-  <article class="panel table-panel">
+  <article class="panel table-panel" *ngIf="booking as b">
     <h2>Top 5 artistas más rentables</h2>
     <table>
       <thead>
@@ -71,7 +107,7 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let recommendation of booking.recommendations"
+          *ngFor="let recommendation of b.recommendations"
           [ngClass]="{ selected: selectedArtist?.artist?.primary === recommendation.artist.primary }"
           (click)="selectArtist(recommendation)"
         >

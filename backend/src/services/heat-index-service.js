@@ -12,7 +12,7 @@ function buildZoneHeat(zone, request) {
   }
 
   const proximityWeight = Math.max(0.35, 1 - distanceKm / (request.radius * 1.1));
-  const artistBoost = request.artist_name.toLowerCase() === 'viejones' ? 1.08 : 1;
+  const artistBoost = request.artist_name.toLowerCase() === 'grupo firme' ? 1.08 : 1;
   const rawSignal =
     zone.youtubeViews / 900 + zone.lastFmListeners / 70 + zone.socialMentions / 18;
   const score = round(rawSignal * proximityWeight * artistBoost);
