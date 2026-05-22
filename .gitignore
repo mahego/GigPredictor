@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+frontend/angular/node_modules/
+
+# Angular build output
+frontend/angular/dist/
+frontend/angular/.angular/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
