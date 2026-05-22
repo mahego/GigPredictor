@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gigpredictor.local/schemas/booking-response.schema.json",
+  "title": "GigPredictorBookingResponse",
+  "type": "object",
+  "required": ["area", "requested_dates", "budget", "radar_snapshot", "recommendations"],
+  "properties": {
+    "area": { "type": "object" },
+    "requested_dates": {
+      "type": "array",
+      "items": { "type": "string", "format": "date" }
+    },
+    "budget": { "type": "number" },
+    "radar_snapshot": { "type": "object" },
+    "recommendations": { "type": "array" },
+    "selected_artist": {
+      "type": ["object", "null"]
+    }
+  }
+}

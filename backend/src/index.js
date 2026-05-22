@@ -1,6 +1,12 @@
 const http = require('node:http');
-const { defaultAnalysisRequest } = require('./data/mock-data');
+const {
+  defaultAnalysisRequest,
+  defaultRadarRequest,
+  defaultBookingRequest
+} = require('./data/mock-data');
 const { analyzeViability } = require('./services/viability-service');
+const { getRadarInsights } = require('./services/radar-service');
+const { recommendBooking } = require('./services/booking-service');
 
 function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -29,6 +35,10 @@ function collectJsonBody(request) {
   });
 }
 
+function normalizeDates(dates = []) {
+  return [...new Set(dates.filter(Boolean))].sort();
+}
+
 function buildRequestPayload(payload = {}) {
   return {
     ...defaultAnalysisRequest,
@@ -37,6 +47,21 @@ function buildRequestPayload(payload = {}) {
       ...defaultAnalysisRequest.date_window,
       ...(payload.date_window ?? {})
     }
+  };
+}
+
+function buildRadarRequest(payload = {}) {
+  return {
+    ...defaultRadarRequest,
+    ...payload
+  };
+}
+
+function buildBookingRequest(payload = {}) {
+  return {
+    ...defaultBookingRequest,
+    ...payload,
+    dates: normalizeDates(payload.dates ?? defaultBookingRequest.dates)
   };
 }
 
@@ -60,9 +85,40 @@ function createServer() {
       return;
     }
 
+    if (request.method === 'POST' && request.url === '/api/radar') {
+      try {
+        const payload = buildRadarRequest(await collectJsonBody(request));
+        sendJson(response, 200, getRadarInsights(payload));
+      } catch (error) {
+        sendJson(response, 400, {
+          error: 'Invalid JSON payload',
+          detail: error.message
+        });
+      }
+      return;
+    }
+
+    if (request.method === 'POST' && request.url === '/api/recommend-booking') {
+      try {
+        const payload = buildBookingRequest(await collectJsonBody(request));
+        sendJson(response, 200, recommendBooking(payload));
+      } catch (error) {
+        sendJson(response, 400, {
+          error: 'Invalid JSON payload',
+          detail: error.message
+        });
+      }
+      return;
+    }
+
     sendJson(response, 404, {
       error: 'Route not found',
-      available_routes: ['GET /api/health', 'POST /api/viability']
+      available_routes: [
+        'GET /api/health',
+        'POST /api/viability',
+        'POST /api/radar',
+        'POST /api/recommend-booking'
+      ]
     });
   });
 }
@@ -76,5 +132,7 @@ if (require.main === module) {
 
 module.exports = {
   buildRequestPayload,
+  buildRadarRequest,
+  buildBookingRequest,
   createServer
 };

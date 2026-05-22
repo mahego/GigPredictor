@@ -1,0 +1,190 @@
+import { RadarResponse } from '../models/dashboard.model';
+
+export const TEST_RADAR_RESPONSE: RadarResponse = {
+  area: {
+    center: {
+      lat: 19.9294,
+      lng: -96.8514
+    },
+    radius_km: 18,
+    lookback_days: 7,
+    active_zones: [
+      {
+        name: 'Misantla Centro',
+        lat: 19.9294,
+        lng: -96.8514,
+        distance_km: 0,
+        demand_weight: 108.61,
+        score: 108.61,
+        recommended_channels: ['Meta Ads', 'Perifoneo local', 'Carteles en mercado']
+      },
+      {
+        name: 'Francisco I. Madero',
+        lat: 19.9218,
+        lng: -96.8698,
+        distance_km: 2.1,
+        demand_weight: 78.28,
+        score: 78.28,
+        recommended_channels: ['Volanteo', 'WhatsApp vecinal', 'Spots en radio']
+      },
+      {
+        name: 'La Constancia',
+        lat: 19.9533,
+        lng: -96.8372,
+        distance_km: 3.04,
+        demand_weight: 59.57,
+        score: 59.57,
+        recommended_channels: ['Anuncios geolocalizados', 'Radio regional', 'Posters']
+      },
+      {
+        name: 'Libertad',
+        lat: 19.9064,
+        lng: -96.8427,
+        distance_km: 2.71,
+        demand_weight: 55.28,
+        score: 55.28,
+        recommended_channels: ['TikTok local', 'Banners en ruta', 'Promotores de calle']
+      },
+      {
+        name: 'Pueblo Viejo',
+        lat: 19.9815,
+        lng: -96.8231,
+        distance_km: 6.5,
+        demand_weight: 26.96,
+        score: 26.96,
+        recommended_channels: ['Ferias locales', 'Promoción con comercios']
+      }
+    ]
+  },
+  generated_at: '2026-05-22T00:00:00.000Z',
+  sources: ['YouTube (simulado)', 'Last.fm (simulado)', 'Social listening (simulado)'],
+  summary: {
+    local_heat_index: 66,
+    dominant_genre: 'Regional Mexicano',
+    dominant_genre_percentage: 42.52
+  },
+  genre_distribution: [
+    { genre: 'Regional Mexicano', percentage: 42.52 },
+    { genre: 'Cumbia', percentage: 17.16 },
+    { genre: 'Pop Latino', percentage: 13.21 },
+    { genre: 'Banda', percentage: 11.24 },
+    { genre: 'Urbano', percentage: 8.91 },
+    { genre: 'Folklore', percentage: 6.96 }
+  ],
+  top_tracks: [
+    {
+      rank: 1,
+      title: 'Sueño Norteño',
+      artist: { primary: 'Viejones', secondary: 'DLS' },
+      genre: 'Regional Mexicano',
+      score: 1025.11,
+      trend: 'Subiendo',
+      sources: { youtube_views: 27800, lastfm_listeners: 3300, social_mentions: 1560 }
+    },
+    {
+      rank: 2,
+      title: 'Madero en Vivo',
+      artist: { primary: 'Los Únicos de Veracruz', secondary: '' },
+      genre: 'Regional Mexicano',
+      score: 951.15,
+      trend: 'Subiendo',
+      sources: { youtube_views: 25100, lastfm_listeners: 3050, social_mentions: 1410 }
+    },
+    {
+      rank: 3,
+      title: 'Amanecer Ranchero',
+      artist: { primary: 'Grupo Costero', secondary: 'Tour 2026' },
+      genre: 'Regional Mexicano',
+      score: 891.7,
+      trend: 'Subiendo',
+      sources: { youtube_views: 22800, lastfm_listeners: 2780, social_mentions: 1240 }
+    },
+    {
+      rank: 4,
+      title: 'Ruta 108',
+      artist: { primary: 'Banda La Misanteca', secondary: '' },
+      genre: 'Regional Mexicano',
+      score: 805.02,
+      trend: 'Subiendo',
+      sources: { youtube_views: 21400, lastfm_listeners: 2400, social_mentions: 980 }
+    },
+    {
+      rank: 5,
+      title: 'Feria y Fogón',
+      artist: { primary: 'Los del Valle', secondary: '' },
+      genre: 'Cumbia',
+      score: 645.72,
+      trend: 'Estable',
+      sources: { youtube_views: 17600, lastfm_listeners: 1860, social_mentions: 860 }
+    },
+    {
+      rank: 6,
+      title: 'Noche Tropical',
+      artist: { primary: 'Caribe Norte', secondary: '' },
+      genre: 'Cumbia',
+      score: 627.15,
+      trend: 'Estable',
+      sources: { youtube_views: 16900, lastfm_listeners: 1750, social_mentions: 810 }
+    },
+    {
+      rank: 7,
+      title: 'Latidos del Puerto',
+      artist: { primary: 'Mar Abierto', secondary: '' },
+      genre: 'Pop Latino',
+      score: 592.73,
+      trend: 'Estable',
+      sources: { youtube_views: 15200, lastfm_listeners: 1600, social_mentions: 930 }
+    },
+    {
+      rank: 8,
+      title: 'Volando Bajo',
+      artist: { primary: 'Luna Clara', secondary: '' },
+      genre: 'Pop Latino',
+      score: 563.67,
+      trend: 'En observación',
+      sources: { youtube_views: 14500, lastfm_listeners: 1490, social_mentions: 790 }
+    },
+    {
+      rank: 9,
+      title: 'Perreo en la Sierra',
+      artist: { primary: 'DJ Tlapala', secondary: '' },
+      genre: 'Urbano',
+      score: 529.8,
+      trend: 'En observación',
+      sources: { youtube_views: 13200, lastfm_listeners: 1010, social_mentions: 990 }
+    },
+    {
+      rank: 10,
+      title: 'Baila en la Plaza',
+      artist: { primary: 'Son Jarocho 84', secondary: '' },
+      genre: 'Folklore',
+      score: 490.83,
+      trend: 'En observación',
+      sources: { youtube_views: 11800, lastfm_listeners: 1120, social_mentions: 610 }
+    }
+  ],
+  top_artists: [
+    { rank: 1, artist: { primary: 'Viejones', secondary: 'DLS' }, genre: 'Regional Mexicano', score: 1025.11, track_count: 1 },
+    { rank: 2, artist: { primary: 'Los Únicos de Veracruz', secondary: '' }, genre: 'Regional Mexicano', score: 951.15, track_count: 1 },
+    { rank: 3, artist: { primary: 'Grupo Costero', secondary: 'Tour 2026' }, genre: 'Regional Mexicano', score: 891.7, track_count: 1 },
+    { rank: 4, artist: { primary: 'Banda La Misanteca', secondary: '' }, genre: 'Regional Mexicano', score: 805.02, track_count: 1 },
+    { rank: 5, artist: { primary: 'Los del Valle', secondary: '' }, genre: 'Cumbia', score: 645.72, track_count: 1 },
+    { rank: 6, artist: { primary: 'Caribe Norte', secondary: '' }, genre: 'Cumbia', score: 627.15, track_count: 1 },
+    { rank: 7, artist: { primary: 'Mar Abierto', secondary: '' }, genre: 'Pop Latino', score: 592.73, track_count: 1 },
+    { rank: 8, artist: { primary: 'Luna Clara', secondary: '' }, genre: 'Pop Latino', score: 563.67, track_count: 1 },
+    { rank: 9, artist: { primary: 'DJ Tlapala', secondary: '' }, genre: 'Urbano', score: 529.8, track_count: 1 },
+    { rank: 10, artist: { primary: 'Son Jarocho 84', secondary: '' }, genre: 'Folklore', score: 490.83, track_count: 1 }
+  ],
+  trends: [
+    { label: 'Viejones · DLS', title: 'Sueño Norteño', genre: 'Regional Mexicano', score: 1025.11, trend: 'Subiendo' },
+    { label: 'Los Únicos de Veracruz', title: 'Madero en Vivo', genre: 'Regional Mexicano', score: 951.15, trend: 'Subiendo' },
+    { label: 'Grupo Costero · Tour 2026', title: 'Amanecer Ranchero', genre: 'Regional Mexicano', score: 891.7, trend: 'Subiendo' },
+    { label: 'Banda La Misanteca', title: 'Ruta 108', genre: 'Regional Mexicano', score: 805.02, trend: 'Subiendo' },
+    { label: 'Los del Valle', title: 'Feria y Fogón', genre: 'Cumbia', score: 645.72, trend: 'Estable' },
+    { label: 'Caribe Norte', title: 'Noche Tropical', genre: 'Cumbia', score: 627.15, trend: 'Estable' },
+    { label: 'Mar Abierto', title: 'Latidos del Puerto', genre: 'Pop Latino', score: 592.73, trend: 'Estable' },
+    { label: 'Luna Clara', title: 'Volando Bajo', genre: 'Pop Latino', score: 563.67, trend: 'En observación' },
+    { label: 'DJ Tlapala', title: 'Perreo en la Sierra', genre: 'Urbano', score: 529.8, trend: 'En observación' },
+    { label: 'Son Jarocho 84', title: 'Baila en la Plaza', genre: 'Folklore', score: 490.83, trend: 'En observación' }
+  ]
+};

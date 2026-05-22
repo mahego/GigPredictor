@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gigpredictor.local/schemas/radar-request.schema.json",
+  "title": "GigPredictorRadarRequest",
+  "type": "object",
+  "required": ["lat", "lng", "radius"],
+  "properties": {
+    "lat": { "type": "number" },
+    "lng": { "type": "number" },
+    "radius": { "type": "number", "minimum": 1 }
+  }
+}

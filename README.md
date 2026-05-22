@@ -10,131 +10,141 @@ Arquitectura técnica mínima para evaluar la viabilidad comercial de contratar 
 │   ├── src
 │   │   ├── data/mock-data.js
 │   │   ├── services
+│   │   │   ├── booking-service.js
 │   │   │   ├── competition-service.js
 │   │   │   ├── geo-utils.js
 │   │   │   ├── heat-index-service.js
+│   │   │   ├── radar-service.js
 │   │   │   └── viability-service.js
 │   │   └── index.js
-│   └── test/viability-service.test.js
+│   └── test
+│       ├── dashboard-service.test.js
+│       └── viability-service.test.js
 ├── frontend
-│   ├── angular/src/app
-│   │   ├── components/viability-map
-│   │   │   ├── viability-map.component.ts
-│   │   │   ├── viability-map.component.html
-│   │   │   └── viability-map.component.css
-│   │   ├── data/test-viability-response.ts
-│   │   └── models/viability.model.ts
+│   ├── angular/src
+│   │   ├── app
+│   │   │   ├── app.component.ts
+│   │   │   ├── app.routes.ts
+│   │   │   ├── components/area-insights-map
+│   │   │   ├── data
+│   │   │   ├── models
+│   │   │   ├── pages/booking-dashboard
+│   │   │   ├── pages/radar-dashboard
+│   │   │   └── services
+│   │   └── main.ts
 │   └── preview/index.html
-├── schemas
-│   ├── viability-request.schema.json
-│   └── viability-response.schema.json
 ├── samples
+│   ├── booking-request.json
+│   ├── booking-response.json
+│   ├── radar-request.json
+│   ├── radar-response.json
 │   ├── viability-request.json
 │   └── viability-response.json
+├── schemas
+│   ├── booking-request.schema.json
+│   ├── booking-response.schema.json
+│   ├── radar-request.schema.json
+│   ├── radar-response.schema.json
+│   ├── viability-request.schema.json
+│   └── viability-response.schema.json
 └── package.json
 ```
 
-## Esquema JSON de entrada
-
-Ver `/home/runner/work/GigPredictor/GigPredictor/schemas/viability-request.schema.json`
-
-Ejemplo:
-
-```json
-{
-  "artist_name": "Viejones",
-  "artist_subtitle": "DLS",
-  "genre": "regional",
-  "lat": 19.9294,
-  "lng": -96.8514,
-  "radius": 18,
-  "cost_contratacion": 350000,
-  "date_window": {
-    "start": "2026-05-23",
-    "end": "2026-05-24"
-  }
-}
-```
-
-## Esquema JSON de salida
-
-Ver `/home/runner/work/GigPredictor/GigPredictor/schemas/viability-response.schema.json`
-
-Campos clave:
-
-- `artist.primary`: encabezado principal, renderizado como **Viejones**
-- `artist.secondary`: subtítulo, renderizado como **DLS**
-- `local_heat_index`: índice de calor local calculado con fuentes simuladas
-- `competition_factor`: penalización por saturación de eventos similares
-- `aforo_estimado`: rango de boletos proyectado
-- `puntos_calientes`: colonias/poblados prioritarios para promoción
-
-## Backend: microservicio de viabilidad
+## Módulo 1: Radar Local
 
 ### Qué hace
 
-1. Simula señales orgánicas locales (YouTube, Last.fm y menciones sociales).
-2. Simula presión competitiva con eventos tipo Ticketmaster/agendas locales.
-3. Calcula viabilidad y aforo estimado para conciertos regionales.
+1. Recibe `lat`, `lng` y `radius`.
+2. Simula el cruce de YouTube, Last.fm y social listening para los últimos 7 días.
+3. Devuelve el Top 10 de tracks, el ranking de artistas, los porcentajes por género y las zonas calientes.
 
-### Ejecutar localmente
+### Endpoint
+
+`POST /api/radar`
+
+Ejemplo:
+
+```bash
+curl -X POST http://localhost:8080/api/radar \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "lat": 19.9294,
+    "lng": -96.8514,
+    "radius": 18
+  }'
+```
+
+## Módulo 2: Motor de Recomendación de Booking
+
+### Qué hace
+
+1. Recibe `lat`, `lng`, `radius`, `dates` y `budget`.
+2. Filtra una base mockeada de artistas por presupuesto y disponibilidad.
+3. Cruza popularidad, momentum local y puntos calientes del Radar para devolver un Top 5 por ROI.
+
+### Endpoint
+
+`POST /api/recommend-booking`
+
+Ejemplo:
+
+```bash
+curl -X POST http://localhost:8080/api/recommend-booking \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "lat": 19.9294,
+    "lng": -96.8514,
+    "radius": 18,
+    "dates": ["2026-05-23", "2026-05-24"],
+    "budget": 400000
+  }'
+```
+
+### Contexto mock principal
+
+- Zona de pruebas: Misantla / Francisco I. Madero, Veracruz.
+- Fechas de referencia: 23 y 24 de mayo de 2026.
+- El Radar lidera con **Regional Mexicano**.
+- El Booking incluye a **Viejones** como nombre primario con subtítulo **DLS** y a **Los Únicos de Veracruz**.
+
+## Backend legado: microservicio de viabilidad
+
+### Endpoint principal
+
+`POST /api/viability`
+
+Mantiene el payload histórico para análisis de viabilidad individual.
+
+## Frontend Angular: dashboard
+
+### Layout
+
+- Sidebar con navegación entre `Radar Local` y `Calculadora de Booking`.
+- Routing standalone en `/home/runner/work/GigPredictor/GigPredictor/frontend/angular/src/app/app.routes.ts`.
+- `AppComponent` como shell principal del dashboard.
+
+### Vista Radar
+
+- Mapa a la izquierda con zonas activas y radio.
+- Pie chart con distribución por género.
+- Lista Top 10 de tendencias y tabla de artistas líderes.
+
+### Vista Booking
+
+- Formulario para presupuesto, radio y fechas.
+- Tabla de resultados ROI con jerarquía `primary` / `secondary`.
+- Al seleccionar un artista, el mapa cambia a sus `puntos_calientes`.
+
+## Ejecutar localmente
 
 ```bash
 cd /home/runner/work/GigPredictor/GigPredictor
 npm start
 ```
 
-### Endpoint principal
-
-`POST /api/viability`
-
-Ejemplo:
-
-```bash
-curl -X POST http://localhost:8080/api/viability \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "artist_name": "Viejones",
-    "artist_subtitle": "DLS",
-    "genre": "regional",
-    "lat": 19.9294,
-    "lng": -96.8514,
-    "radius": 18,
-    "cost_contratacion": 350000,
-    "date_window": {
-      "start": "2026-05-23",
-      "end": "2026-05-24"
-    }
-  }'
-```
-
-## Frontend Angular: mapa de calor
-
-El componente base está en:
-
-- `/home/runner/work/GigPredictor/GigPredictor/frontend/angular/src/app/components/viability-map/viability-map.component.ts`
-- `/home/runner/work/GigPredictor/GigPredictor/frontend/angular/src/app/components/viability-map/viability-map.component.html`
-- `/home/runner/work/GigPredictor/GigPredictor/frontend/angular/src/app/components/viability-map/viability-map.component.css`
-
-Características:
-
-- Renderiza `Viejones` como encabezado principal y `DLS` como subtítulo.
-- Dibuja el radio de acción con Google Maps cuando se pasa una API key.
-- Activa un modo fallback visual si no existe API key, útil para demos internas.
-- Lista los puntos calientes con sus canales promocionales ideales.
-
 ## Validación local
-
-### Pruebas backend
 
 ```bash
 cd /home/runner/work/GigPredictor/GigPredictor
 npm test
 ```
-
-### Vista previa UI para screenshot
-
-Abrir un servidor estático en la raíz del repo y visitar:
-
-- `http://localhost:8000/frontend/preview/index.html`
-

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gigpredictor.local/schemas/radar-response.schema.json",
+  "title": "GigPredictorRadarResponse",
+  "type": "object",
+  "required": ["area", "summary", "genre_distribution", "top_tracks", "top_artists", "trends"],
+  "properties": {
+    "area": { "type": "object" },
+    "summary": { "type": "object" },
+    "genre_distribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["genre", "percentage"],
+        "properties": {
+          "genre": { "type": "string" },
+          "percentage": { "type": "number" }
+        }
+      }
+    },
+    "top_tracks": { "type": "array" },
+    "top_artists": { "type": "array" },
+    "trends": { "type": "array" }
+  }
+}

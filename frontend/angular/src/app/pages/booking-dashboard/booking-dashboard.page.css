@@ -1,0 +1,144 @@
+:host {
+  display: block;
+}
+
+.page-shell,
+.page-header,
+.content-grid,
+.filters-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.page-header {
+  grid-template-columns: 1fr minmax(240px, 320px);
+  align-items: start;
+}
+
+.eyebrow,
+.subtitle,
+.snapshot-card span,
+.snapshot-card small,
+label span,
+.reason-list,
+.panel table small {
+  color: #94a3b8;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.panel,
+.snapshot-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.snapshot-card strong {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 1.5rem;
+}
+
+.content-grid {
+  grid-template-columns: minmax(320px, 0.65fr) minmax(0, 1.35fr);
+  align-items: start;
+}
+
+.filters-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label {
+  display: grid;
+  gap: 8px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+input,
+button {
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 12px 14px;
+  font: inherit;
+}
+
+input {
+  background: rgba(2, 6, 23, 0.72);
+  color: #f8fafc;
+}
+
+button {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  color: #03111b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.map-panel,
+.table-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.map-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+
+.metric-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  font-weight: 700;
+}
+
+.reason-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.table-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-panel th,
+.table-panel td {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  text-align: left;
+}
+
+.table-panel tbody tr {
+  cursor: pointer;
+}
+
+.table-panel tbody tr.selected {
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.table-panel td strong,
+.table-panel td small {
+  display: block;
+}
+
+@media (max-width: 1100px) {
+  .page-header,
+  .content-grid,
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,160 @@
+:host {
+  display: block;
+}
+
+.page-shell,
+.stack,
+.content-grid,
+.bottom-grid,
+.page-header {
+  display: grid;
+  gap: 24px;
+}
+
+.page-header {
+  grid-template-columns: 1fr minmax(260px, 320px);
+  align-items: start;
+}
+
+.eyebrow,
+.subtitle,
+.summary-card span,
+.summary-card small,
+.legend-row span,
+.zone-list span,
+.zone-list small,
+.trend-list small,
+.panel table small {
+  color: #94a3b8;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.summary-card,
+.panel,
+.genre-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.summary-card strong {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 1.5rem;
+  color: #f8fafc;
+}
+
+.content-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.8fr);
+  align-items: start;
+}
+
+.genre-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.genre-card__chart {
+  width: 180px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 12px solid rgba(15, 23, 42, 0.85);
+}
+
+.genre-card__legend,
+.zone-list,
+.trend-list {
+  display: grid;
+  gap: 12px;
+}
+
+.legend-row,
+.trend-list li,
+.zone-list li {
+  display: grid;
+  gap: 8px;
+}
+
+.legend-row {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.legend-chip {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.trend-list,
+.zone-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trend-list li,
+.zone-list li {
+  background: rgba(30, 41, 59, 0.74);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.trend-list li {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.trend-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #7dd3fc;
+  font-size: 0.75rem;
+}
+
+.bottom-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.panel-section {
+  gap: 18px;
+}
+
+.panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.panel th,
+.panel td {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  text-align: left;
+}
+
+.panel td strong,
+.panel td small {
+  display: block;
+}
+
+@media (max-width: 1100px) {
+  .page-header,
+  .content-grid,
+  .bottom-grid,
+  .genre-card {
+    grid-template-columns: 1fr;
+  }
+
+  .genre-card__chart {
+    width: 140px;
+  }
+}
